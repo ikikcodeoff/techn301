@@ -3,7 +3,7 @@
 
 // 1) Mets tes infos Supabase ici :
 const SUPABASE_URL = "https://hcalvcfkwagzkdkkwpau.supabase.co";
-const SUPABASE_KEY = "sb_publishable_kd4-RxfQIPTX_ZcsuwqRug_ZiE74lrt";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjYWx2Y2Zrd2Fnemtka2t3cGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDk0NjEsImV4cCI6MjA4NTcyNTQ2MX0.7gP-SgeejLvv02whQ5AdhEXWsIhWja3jb8Bh6kOW_Hg";
 
 // 2) Client Supabase
 let sb = null;
