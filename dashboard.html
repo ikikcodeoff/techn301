@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Techn301 — Dashboard</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+<div class="wrap">
+  <header>
+    <div class="title">
+      <h1>Techn301 — Vie Scolaire</h1>
+      <div class="sub">Tableau de bord</div>
+    </div>
+    <div class="pill">
+      <span>👤</span>
+      <span><b id="who">Déconnecté</b></span>
+      <span class="small" id="roleTxt">—</span>
+      <span class="small">•</span>
+      <span class="small" id="modeTxt">—</span>
+    </div>
+  </header>
+
+  <div class="card"><div class="inner">
+    <div class="row" style="margin-top:0">
+      <div class="nav" id="nav"></div>
+      <div class="btns">
+        <button id="btnLogout">Se déconnecter</button>
+        <span class="tag" id="statusTag">📝 Prêt</span>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      
+<section class="glass section">
+  <h2>Dashboard</h2>
+  <p class="desc">Résumé (brouillons vs publiés).</p>
+  <div class="kpi" id="kpiBox"></div>
+  <div class="row">
+    <span class="tag">Compte: <b id="meEmail"></b></span>
+    <span class="tag">Rôle: <b id="meRole"></b></span>
+    <span class="tag">Mode: <b id="modeTxt">—</b></span>
+  </div>
+  <div class="row">
+    <div class="btns">
+      <button class="primary" id="btnPublish">Publier les notes</button>
+      <button class="danger" id="btnPublishAll">Publier tout</button>
+    </div>
+  </div>
+  <div class="notice hidden ok" id="publishInfo" style="margin-top:12px;"></div>
+</section>
+
+    </div>
+  </div></div>
+
+  <div class="small" style="margin-top:12px; opacity:.75; text-align:center">
+    TECHN301 — Prototype Techno • Multi-pages • GitHub Pages
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  T301.initCommon("dashboard");
+  T301.pageDashboard();
+</script>
+</body>
+</html>

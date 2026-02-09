@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Techn301 — NPunitions</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+<div class="wrap">
+  <header>
+    <div class="title">
+      <h1>Techn301 — Vie Scolaire</h1>
+      <div class="sub">Retrait de points</div>
+    </div>
+    <div class="pill">
+      <span>👤</span>
+      <span><b id="who">Déconnecté</b></span>
+      <span class="small" id="roleTxt">—</span>
+      <span class="small">•</span>
+      <span class="small" id="modeTxt">—</span>
+    </div>
+  </header>
+
+  <div class="card"><div class="inner">
+    <div class="row" style="margin-top:0">
+      <div class="nav" id="nav"></div>
+      <div class="btns">
+        <button id="btnLogout">Se déconnecter</button>
+        <span class="tag" id="statusTag">📝 Prêt</span>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      
+<section class="glass section">
+  <h2>⚡ NPunitions (départ 20/20)</h2>
+  <p class="desc">La prof retire des points. Publier = visible élève.</p>
+  <div class="split">
+    <div>
+      <div class="small">Élève</div>
+      <select id="npStudent"><option value="">— Choisir —</option></select>
+
+      <div class="cols2" style="margin-top:10px">
+        <div>
+          <div class="small">Points à enlever</div>
+          <input id="npMinus" placeholder="ex: 2" inputmode="numeric">
+        </div>
+        <div>
+          <div class="small">Motif</div>
+          <select id="npReason">
+            <option>Bavardages</option>
+            <option>Pas de matériel</option>
+            <option>Travail non fait</option>
+            <option>Retard</option>
+            <option>Comportement</option>
+            <option>Autre</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="small" style="margin-top:10px;">Détail</div>
+      <input id="npDetail" placeholder="optionnel">
+
+      <div class="row">
+        <div class="btns">
+          <button class="primary" id="btnNpAdd">Retirer</button>
+          <button id="btnNpLoad">Voir historique</button>
+        </div>
+        <span class="tag">Note: <b id="npScore">—</b></span>
+      </div>
+    </div>
+
+    <div>
+      <div class="list" id="npList"></div>
+    </div>
+  </div>
+</section>
+
+    </div>
+  </div></div>
+
+  <div class="small" style="margin-top:12px; opacity:.75; text-align:center">
+    TECHN301 — Prototype Techno • Multi-pages • GitHub Pages
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  T301.initCommon("np");
+  T301.pageNP();
+</script>
+</body>
+</html>

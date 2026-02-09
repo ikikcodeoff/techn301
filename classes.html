@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Techn301 — Classes</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+<div class="wrap">
+  <header>
+    <div class="title">
+      <h1>Techn301 — Vie Scolaire</h1>
+      <div class="sub">Création des classes + affectation des élèves (Admin).</div>
+    </div>
+    <div class="pill">
+      <span><b id="who">—</b></span>
+      <span class="small">•</span>
+      <span class="small" id="roleTxt">—</span>
+      <span class="small">•</span>
+      <span class="small" id="modeTxt">—</span>
+    </div>
+  </header>
+
+  <div class="card"><div class="inner">
+    <div class="row" style="margin-top:0">
+      <div class="nav" id="nav"></div>
+      <div class="btns">
+        <button id="btnLogout">Se déconnecter</button>
+        <span class="tag" id="statusTag">📝 Prêt</span>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+
+<section class="glass section">
+  <h2>Classes</h2>
+  <p class="desc">Créer des classes et y affecter les élèves.</p>
+
+  <div class="split">
+    <div class="glass section">
+      <h3>Créer une classe</h3>
+      <label class="small">Nom (ex: 3A)</label>
+      <input id="className" placeholder="ex: 3A">
+      <div class="row">
+        <div class="btns">
+          <button class="primary" id="btnAddClass">Créer</button>
+        </div>
+        <span class="tag">Admin uniquement</span>
+      </div>
+      <div id="notice" class="notice hidden"></div>
+    </div>
+
+    <div class="glass section">
+      <h3>Affecter un élève</h3>
+      <label class="small">Élève</label>
+      <select id="classStudent"><option value="">—</option></select>
+
+      <label class="small" style="margin-top:10px; display:block;">Classe</label>
+      <select id="classSelect"><option value="">—</option></select>
+
+      <div class="row">
+        <div class="btns">
+          <button class="primary" id="btnAssignClass">Affecter</button>
+        </div>
+        <span class="tag">Assigne 1 classe / élève</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:12px">Liste des classes</h3>
+  <div class="list" id="classesList"></div>
+</section>
+
+<script>
+  (async ()=>{
+    await window.T301.initCommon("classes");
+    await window.T301.pageClasses();
+  })();
+</script>
+
+    </div>
+
+    <div class="small" style="margin-top:12px; opacity:.75; text-align:center">
+      TECHN301 — Prototype Techno • Multi-pages • GitHub Pages
+    </div>
+  </div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  (async ()=>{
+    // logout
+    document.getElementById("btnLogout").onclick = ()=>{ window.T301.logout(); };
+  })();
+</script>
+</body>
+</html>

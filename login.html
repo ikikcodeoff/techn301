@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Techn301 — Login</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+<div class="wrap">
+  <header>
+    <div class="title">
+      <h1>Techn301 — Vie Scolaire</h1>
+      <div class="sub">Connexion</div>
+    </div>
+    <div class="pill">
+      <span>🔒</span>
+      <span><b id="who">Déconnecté</b></span>
+      <span class="small" id="roleTxt">—</span>
+      <span class="small">•</span>
+      <span class="small" id="modeTxt">—</span>
+    </div>
+  </header>
+
+  <div class="card"><div class="inner">
+    <section class="glass section">
+      <h2>Login</h2>
+      <p class="desc">Email <span class="mono">p.nom@techn301.fr</span> + code (4 chiffres). <span class="tag">Mode <b id="modeTag">—</b></span></p>
+
+      <div class="cols2">
+        <div>
+          <div class="small">Email</div>
+          <input id="loginEmail" placeholder="ex: e.benikiker@techn301.fr" autocomplete="username">
+        </div>
+        <div>
+          <div class="small">Code</div>
+          <input id="loginCode" placeholder="ex: 1234" inputmode="numeric" maxlength="4">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="btns">
+          <button class="primary" id="btnLogin">Se connecter</button>
+          <button id="btnResetDemo">Reset Démo</button>
+        </div>
+        <span class="tag" id="statusTag">📝 Prêt</span>
+      </div>
+
+      <div class="notice hidden" id="loginError" style="margin-top:12px;"></div>
+
+      <div class="glass section" style="margin-top:12px;">
+        <h2>Comptes Démo</h2>
+        <p class="desc">
+          <span class="mono">admin@techn301.fr</span> — <span class="mono">1234</span><br>
+          <span class="mono">prof@techn301.fr</span> — <span class="mono">4321</span><br>
+          Les élèves : onglet <b>Codes</b> après connexion prof/admin.
+        </p>
+      </div>
+
+      <div class="small" style="margin-top:10px;opacity:.8">Build: <span class="mono">2026-02-08T17:14:29.273129Z</span></div>
+    </section>
+  </div></div>
+
+  <div class="small" style="margin-top:12px; opacity:.75; text-align:center">
+    TECHN301 — Prototype Techno • Multi-pages • GitHub Pages
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  T301.initCommon(null);
+  document.getElementById("modeTag").textContent = T301.MODE;
+
+  try {
+    if(location.protocol === "file:") {
+      T301.showNotice("loginError", "Tu es en file://. Pour GitHub Pages ça marche (HTTPS). En local, utilise VS Code Live Server.", false);
+    }
+  } catch(e) {}
+
+  document.getElementById("btnResetDemo").onclick = () => {
+    T301.resetDemo();
+    T301.setStatus("✅ Démo reset", true);
+    T301.showNotice("loginError", "");
+  };
+
+  document.getElementById("btnLogin").onclick = async () => {
+    const email = (document.getElementById("loginEmail").value||"").trim().toLowerCase();
+    const code  = (document.getElementById("loginCode").value||"").trim();
+    T301.showNotice("loginError", "");
+    if(!email || !code) return T301.setStatus("⚠️ Email + code requis", false);
+    if(!/^[0-9]{4}$/.test(code)) return T301.setStatus("⚠️ Code = 4 chiffres", false);
+
+    const res = await T301.login(email, code);
+    if(!res.ok) {
+      T301.showNotice("loginError", res.error || "Erreur inconnue", false);
+      return T301.setStatus("❌ Identifiants invalides", false);
+    }
+
+    T301.setStatus("✅ Connecté", true);
+    const role = res.session.role;
+    window.location.href = (role === "student") ? "student.html" : "dashboard.html";
+  };
+</script>
+</body>
+</html>

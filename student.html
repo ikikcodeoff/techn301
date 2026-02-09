@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Techn301 — Mon espace</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+<div class="wrap">
+  <header>
+    <div class="title">
+      <h1>Techn301 — Vie Scolaire</h1>
+      <div class="sub">Espace élève</div>
+    </div>
+    <div class="pill">
+      <span>👤</span>
+      <span><b id="who">Déconnecté</b></span>
+      <span class="small" id="roleTxt">—</span>
+      <span class="small">•</span>
+      <span class="small" id="modeTxt">—</span>
+    </div>
+  </header>
+
+  <div class="card"><div class="inner">
+    <div class="row" style="margin-top:0">
+      <div class="nav" id="nav"></div>
+      <div class="btns">
+        <button id="btnLogout">Se déconnecter</button>
+        <span class="tag" id="statusTag">📝 Prêt</span>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      
+<section class="glass section">
+  <h2>👨‍🎓 Mon espace</h2>
+  <p class="desc">Tu vois uniquement ce qui est <b>publié</b>.</p>
+
+  <div class="cols2">
+    <div class="glass section">
+      <h2>NPunitions</h2>
+      <p class="desc">Départ 20/20.</p>
+      <p class="scorebig" id="myNpScore">—</p>
+      <div class="small" id="myNpMeta"></div>
+    </div>
+    <div class="glass section">
+      <h2>Résumé</h2>
+      <div class="kpi" id="myKpi"></div>
+    </div>
+  </div>
+
+  <div class="split" style="margin-top:12px">
+    <div>
+      <h2 style="margin-top:0">Notes publiées</h2>
+      <div class="list" id="myGrades"></div>
+    </div>
+    <div>
+      <h2 style="margin-top:0">Sanctions publiées</h2>
+      <div class="list" id="myDis"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="btns">
+      <button class="primary" id="btnMyRefresh">Rafraîchir</button>
+    </div>
+    <span class="tag">Compte: <b class="mono" id="myEmail">—</b></span>
+  </div>
+</section>
+
+    </div>
+  </div></div>
+
+  <div class="small" style="margin-top:12px; opacity:.75; text-align:center">
+    TECHN301 — Prototype Techno • Multi-pages • GitHub Pages
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  T301.initCommon("student");
+  T301.pageStudent();
+</script>
+</body>
+</html>
