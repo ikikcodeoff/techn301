@@ -1,11 +1,9 @@
-// TECHN301 — app.js (version stable, simple, multi-pages)
-// HTML/CSS/JS + Supabase (clé publishable) — projet Techno
+// TECHN301 — app.js (stable + messages d'erreur clairs)
 
-// 1) Mets tes infos Supabase ici :
+// Supabase
 const SUPABASE_URL = "https://hcalvcfkwagzkdkkwpau.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjYWx2Y2Zrd2Fnemtka2t3cGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDk0NjEsImV4cCI6MjA4NTcyNTQ2MX0.7gP-SgeejLvv02whQ5AdhEXWsIhWja3jb8Bh6kOW_Hg";
 
-// 2) Client Supabase
 let sb = null;
 try{
   const okKey = typeof SUPABASE_KEY === "string" && (
@@ -20,7 +18,7 @@ try{
 const $ = (id)=>document.getElementById(id);
 const SESSION_KEY = "t301_session";
 
-function escapeHtml(s){
+function esc(s){
   return String(s ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
@@ -48,16 +46,16 @@ function setStatus(text, ok=null){
   }
 }
 
-function showNotice(id, msg, ok=false){
+function showBox(id, msg){
   const box = $(id);
   if(!box) return;
   if(!msg){
-    box.classList.add("hidden");
+    box.style.display = "none";
     box.innerHTML = "";
     return;
   }
-  box.classList.remove("hidden");
-  box.innerHTML = (ok ? "✅ " : "⚠️ ") + escapeHtml(msg);
+  box.style.display = "block";
+  box.innerHTML = "⚠️ " + esc(msg);
 }
 
 function getSession(){
@@ -71,12 +69,45 @@ function setSession(s){
   else localStorage.setItem(SESSION_KEY, JSON.stringify(s));
 }
 
+function explainSupabaseProblem(detail){
+  const bits = [
+    "Connexion à la base impossible.",
+    "Vérifie :",
+    "1) Site en HTTPS (GitHub Pages).",
+    "2) Tables créées (accounts, students...).",
+    "3) RLS désactivé (ou policies) sur la table accounts."
+  ];
+  if(detail) bits.push("", "Détail : " + detail);
+  return bits.join("\n");
+}
+
 function requireSb(){
-  if(!sb) throw new Error("Connexion à la base impossible. Vérifie URL/clé Supabase + ouverture en HTTPS (GitHub Pages).");
+  if(!sb) throw new Error(explainSupabaseProblem("Supabase non initialisé (URL/clé)."));
+}
+
+function errMsg(e){
+  if(!e) return "Erreur inconnue.";
+  if(typeof e === "string") return e;
+  const parts = [];
+  if(e.message) parts.push(e.message);
+  if(e.details) parts.push(e.details);
+  if(e.hint) parts.push(e.hint);
+  if(e.code) parts.push("code: " + e.code);
+  return parts.filter(Boolean).join(" — ") || "Erreur inconnue.";
+}
+
+// Test DB : si ça rate -> message clair (RLS / tables)
+async function pingAccounts(){
+  requireSb();
+  const { error } = await sb.from("accounts").select("email").limit(1);
+  if(error){
+    throw new Error(explainSupabaseProblem(errMsg(error)));
+  }
+  return true;
 }
 
 async function login(email, code){
-  requireSb();
+  await pingAccounts();
   const em = String(email||"").trim().toLowerCase();
   const cd = String(code||"").trim();
   if(!em || !/^[0-9]{4}$/.test(cd)) throw new Error("Email + code (4 chiffres) requis.");
@@ -87,7 +118,7 @@ async function login(email, code){
     .eq("email", em)
     .eq("code", cd)
     .maybeSingle();
-  if(error) throw error;
+  if(error) throw new Error(errMsg(error));
   if(!data) throw new Error("Email ou code incorrect.");
 
   const s = { email: data.email, role: data.role, student_id: data.student_id || null };
@@ -100,30 +131,31 @@ function logout(){
   location.href = "login.html";
 }
 
-// Nav simple (centré)
-const NAV = [
-  {href:"dashboard.html", label:"Dashboard", roles:["admin","prof"]},
-  {href:"classes.html", label:"Classes", roles:["admin"]},
-  {href:"matieres.html", label:"Matières", roles:["admin"]},
-  {href:"devoirs.html", label:"Devoirs", roles:["admin","prof","student"]},
-  {href:"messages.html", label:"Messages", roles:["admin","prof","student"]},
-  {href:"notes.html", label:"Notes", roles:["admin","prof","student"]},
-  {href:"npunitions.html", label:"NPunitions", roles:["admin","prof","student"]},
-  {href:"sanctions.html", label:"Sanctions", roles:["admin","prof","student"]},
-];
-
 function mountNav(activeKey){
   const nav = $("nav");
   if(!nav) return;
   const s = getSession();
   nav.innerHTML = "";
   if(!s) return;
-  for(const it of NAV){
-    if(!it.roles.includes(s.role)) continue;
+
+  const items = [
+    ["dashboard.html","Dashboard",["admin","prof"]],
+    ["classes.html","Classes",["admin"]],
+    ["matieres.html","Matières",["admin"]],
+    ["devoirs.html","Devoirs",["admin","prof","student"]],
+    ["messages.html","Messages",["admin","prof","student"]],
+    ["notes.html","Notes",["admin","prof","student"]],
+    ["npunitions.html","NPunitions",["admin","prof","student"]],
+    ["sanctions.html","Sanctions",["admin","prof","student"]],
+    ["student.html","Mon espace",["student"]],
+  ];
+
+  for(const [href,label,roles] of items){
+    if(!roles.includes(s.role)) continue;
     const a = document.createElement("a");
-    a.href = it.href;
-    a.className = "chip" + (activeKey && it.href.startsWith(activeKey) ? " active" : "");
-    a.textContent = it.label;
+    a.href = href;
+    a.className = "chip" + (activeKey && href.startsWith(activeKey) ? " active" : "");
+    a.textContent = label;
     nav.appendChild(a);
   }
 }
@@ -132,130 +164,37 @@ async function initCommon(active){
   const s = getSession();
   const who = $("who"); if(who) who.textContent = s ? s.email : "Déconnecté";
   const roleTxt = $("roleTxt"); if(roleTxt) roleTxt.textContent = s ? s.role : "—";
-  const modeTxt = $("modeTxt"); if(modeTxt) modeTxt.textContent = ""; // pas de terme compliqué
+  const modeTxt = $("modeTxt"); if(modeTxt) modeTxt.textContent = "";
   mountNav(active || "");
-  const btnLogout = $("btnLogout");
-  if(btnLogout) btnLogout.onclick = logout;
+  const btnLogout = $("btnLogout"); if(btnLogout) btnLogout.onclick = logout;
   return s;
 }
 
-// ---- Helpers UI list
-function itemHTML(title, meta){
-  return `<div class="item"><div class="t">${escapeHtml(title)}</div><div class="m">${escapeHtml(meta||"")}</div></div>`;
-}
-function fmtDate(iso){
-  try{ return new Date(iso).toLocaleString("fr-FR"); }catch{ return iso; }
-}
-
-// ---- PAGES (simple, pas de crash si un bloc manque)
 async function pageLogin(){
   setStatus("📝 Prêt", null);
+  showBox("loginError", "");
+
   const btn = $("btnLogin");
-  if(btn){
-    btn.onclick = async ()=>{
-      try{
-        showNotice("loginError","",false);
-        const s = await login($("loginEmail")?.value, $("loginCode")?.value);
-        setStatus("✅ Connecté", true);
-        location.href = (s.role === "student") ? "student.html" : "dashboard.html";
-      }catch(e){
-        console.error(e);
-        setStatus("❌ Connexion impossible", false);
-        showNotice("loginError", e.message || "Erreur.", false);
-      }
-    };
-  }
+  if(!btn) return;
+
+  btn.onclick = async ()=>{
+    try{
+      showBox("loginError", "");
+      const s = await login($("loginEmail")?.value, $("loginCode")?.value);
+      setStatus("✅ Connecté", true);
+      location.href = (s.role === "student") ? "student.html" : "dashboard.html";
+    }catch(e){
+      console.error(e);
+      setStatus("❌ Connexion impossible", false);
+      showBox("loginError", errMsg(e));
+    }
+  };
 }
 
-// Dashboard: juste compter brouillons/publiés si éléments présents
-async function pageDashboard(){
-  const s = await initCommon("dashboard");
-  if(!s) return location.href="login.html";
-  if(!(s.role==="admin"||s.role==="prof")) return location.href="student.html";
-  requireSb();
-
-  try{
-    const kpi = $("kpiBox");
-    if(!kpi) return;
-
-    const { data: g } = await sb.from("grades").select("published");
-    const { data: d } = await sb.from("discipline_events").select("published,type");
-    const grades = {draft:0,pub:0}; (g||[]).forEach(x=>x.published?grades.pub++:grades.draft++);
-    const np = {draft:0,pub:0}; const sanc = {draft:0,pub:0};
-    (d||[]).forEach(x=>{
-      const b = (x.type==="NPunitions") ? np : sanc;
-      x.published ? b.pub++ : b.draft++;
-    });
-
-    kpi.innerHTML = `
-      <div class="k"><div class="label">NPunitions (brouillons)</div><div class="val">${np.draft}</div></div>
-      <div class="k"><div class="label">NPunitions (publiés)</div><div class="val">${np.pub}</div></div>
-      <div class="k"><div class="label">Notes (brouillons)</div><div class="val">${grades.draft}</div></div>
-      <div class="k"><div class="label">Notes (publiées)</div><div class="val">${grades.pub}</div></div>
-      <div class="k"><div class="label">Sanctions (brouillons)</div><div class="val">${sanc.draft}</div></div>
-      <div class="k"><div class="label">Sanctions (publiées)</div><div class="val">${sanc.pub}</div></div>
-    `;
-    setStatus("✅ Dashboard à jour", true);
-  }catch(e){
-    console.error(e);
-    setStatus("❌ Dashboard: erreur base", false);
-  }
-}
-
-// Placeholder pages: évite les crashs
-async function pageClasses(){ await initCommon("classes"); if(!getSession()) location.href="login.html"; }
-async function pageMatieres(){ await initCommon("matieres"); if(!getSession()) location.href="login.html"; }
-async function pageDevoirs(){ await initCommon("devoirs"); if(!getSession()) location.href="login.html"; }
-async function pageMessages(){ await initCommon("messages"); if(!getSession()) location.href="login.html"; }
-async function pageNotes(){ await initCommon("notes"); if(!getSession()) location.href="login.html"; }
-async function pageNP(){ await initCommon("npunitions"); if(!getSession()) location.href="login.html"; }
-async function pageSanctions(){ await initCommon("sanctions"); if(!getSession()) location.href="login.html"; }
-
-async function pageStudent(){
-  const s = await initCommon("student");
-  if(!s) return location.href="login.html";
-  requireSb();
-  try{
-    const myEmail = $("myEmail"); if(myEmail) myEmail.textContent = s.email;
-    // NP score (publié)
-    const { data: npRows } = await sb.from("discipline_events")
-      .select("points_delta")
-      .eq("student_id", s.student_id)
-      .eq("type","NPunitions")
-      .eq("published", true);
-    const sum = (npRows||[]).reduce((a,r)=>a+(Number(r.points_delta)||0),0);
-    const score = Math.max(0, Math.min(20, 20+sum));
-    const myNpScore = $("myNpScore"); if(myNpScore) myNpScore.textContent = score.toFixed(1)+" / 20";
-    setStatus("✅ Espace élève à jour", true);
-  }catch(e){
-    console.error(e);
-    setStatus("❌ Élève: erreur base", false);
-  }
-}
-
-async function pageCodes(){
-  const s = await initCommon("codes");
-  if(!s) return location.href="login.html";
-  if(!(s.role==="admin"||s.role==="prof")) return location.href="student.html";
-  // IMPORTANT: on ne montre que les élèves (jamais les prof/admin)
-}
-
-// Export stable (PAS d’identifiant manquant)
 window.T301 = {
   initCommon,
   login,
   logout,
-  setStatus,
-  showNotice,
   pageLogin,
-  pageDashboard,
-  pageCodes,
-  pageNP,
-  pageNotes,
-  pageSanctions,
-  pageStudent,
-  pageClasses,
-  pageDevoirs,
-  pageMessages,
-  pageMatieres
+  setStatus
 };
