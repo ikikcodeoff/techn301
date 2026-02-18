@@ -3,237 +3,653 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Techn301 — Vie Scolaire (Projet Techno)</title>
-  <link rel="stylesheet" href="assets/styles.css" />
+  <title>Techn301 — Maintenance</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
-    .hero{display:grid;grid-template-columns:1fr;gap:14px;margin-top:6px}
-    @media(min-width:980px){.hero{grid-template-columns:1.15fr .85fr}}
-    .navfloat{position:sticky;top:14px;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:950;letter-spacing:.2px}
-    .logoDot{width:12px;height:12px;border-radius:999px;background:linear-gradient(180deg,rgba(122,162,255,.9),rgba(122,162,255,.25));box-shadow:0 0 0 6px rgba(122,162,255,.10),0 16px 40px rgba(0,0,0,.35)}
-    .navlinks{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
-    .navlinks a{cursor:pointer}
-    .ghost{opacity:.88}
-    .hTitle{font-size:34px;line-height:1.05;font-weight:950;margin:2px 0 0 0;letter-spacing:.2px}
-    .hLead{margin:10px 0 0 0;color:var(--muted);font-size:14px;line-height:1.45;max-width:70ch}
-    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
-    .ctaRow a{display:inline-flex;align-items:center;gap:8px}
-    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    .illus{min-height:260px;display:flex;flex-direction:column;justify-content:space-between}
-    .illusTop{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-    .progress{height:10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);overflow:hidden}
-    .bar{height:100%;width:0%;background:linear-gradient(90deg,rgba(122,162,255,.85),rgba(43,213,118,.65));border-radius:999px;transition:width 1.2s ease}
-    .steps{display:grid;gap:10px;margin-top:12px}
-    .step{display:flex;gap:10px;align-items:flex-start}
-    .step .n{width:26px;height:26px;border-radius:10px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);font-weight:950;flex:0 0 auto}
-    .step .txt .t{font-weight:950}
-    .step .txt .d{color:var(--muted);font-size:12px;margin-top:3px;line-height:1.4}
-    .sectionTitle{font-size:18px;font-weight:950;margin:0 0 8px 0}
-    .showcaseGrid{display:grid;grid-template-columns:1fr;gap:12px}
-    @media(min-width:980px){.showcaseGrid{grid-template-columns:1fr 1fr 1fr}}
-    .mini{padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 12px 34px rgba(0,0,0,.30);position:relative;overflow:hidden;transform:translateY(0);transition:transform .15s ease,border-color .15s ease,background .15s ease}
-    .mini:hover{transform:translateY(-2px);border-color:rgba(122,162,255,.35);background:rgba(255,255,255,.055)}
-    .mini .k{color:var(--muted);font-size:12px}
-    .mini .v{font-weight:950;margin-top:4px;line-height:1.2}
-    .mini .p{color:var(--muted);font-size:12px;margin-top:8px;line-height:1.45}
-    .timeline{display:grid;gap:10px}
-    .line{display:flex;gap:10px;align-items:flex-start}
-    .line .dot{width:10px;height:10px;border-radius:999px;margin-top:6px;background:rgba(255,255,255,.55);box-shadow:0 0 0 6px rgba(255,255,255,.06);flex:0 0 auto}
-    .line .content .t{font-weight:950}
-    .line .content .d{color:var(--muted);font-size:12px;line-height:1.45;margin-top:3px}
-    .footer{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
-    .reveal{opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease}
-    .reveal.on{opacity:1;transform:translateY(0)}
-    @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1222;
+
+      --stroke: rgba(255,255,255,.12);
+      --stroke2: rgba(255,255,255,.08);
+
+      --text:#EAF0FF;
+      --muted:rgba(234,240,255,.72);
+      --muted2:rgba(234,240,255,.52);
+
+      --accent:#7C3AED;
+      --accent2:#22D3EE;
+
+      --good:#22C55E;
+      --warn:#F59E0B;
+
+      --shadow: 0 24px 80px rgba(0,0,0,.55);
+      --radius: 22px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 20% 15%, rgba(124,58,237,.22), transparent 60%),
+        radial-gradient(900px 600px at 85% 25%, rgba(34,211,238,.18), transparent 60%),
+        radial-gradient(900px 700px at 55% 100%, rgba(124,58,237,.16), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow:hidden;
+    }
+
+    .grid{
+      position:fixed; inset:0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity:.10;
+      pointer-events:none;
+      mask-image: radial-gradient(circle at 50% 30%, #000 35%, transparent 70%);
+    }
+
+    .app{
+      position:relative;
+      height:100%;
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap:18px;
+      padding:18px;
+    }
+
+    .panel{
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      overflow:hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      padding:14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--stroke2);
+    }
+    .logo{
+      width:42px; height:42px;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(34,211,238,.95), rgba(34,211,238,.0) 60%),
+        radial-gradient(circle at 70% 70%, rgba(124,58,237,.95), rgba(124,58,237,.0) 60%),
+        rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .brand h1{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.2px;
+      font-weight:900;
+      line-height:1.1;
+    }
+    .brand small{
+      display:block;
+      margin-top:2px;
+      color:var(--muted2);
+      font-size:12px;
+      font-weight:600;
+    }
+
+    .nav{
+      display:flex; flex-direction:column;
+      gap:10px;
+      padding:14px;
+      border-radius: 18px;
+      border:1px solid var(--stroke2);
+      background: rgba(255,255,255,.04);
+    }
+    .nav .item{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+    }
+    .nav .left{
+      display:flex; align-items:center; gap:10px;
+      color:var(--muted);
+      font-weight:800;
+      font-size:13px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(234,240,255,.25);
+      box-shadow: 0 0 0 4px rgba(234,240,255,.06);
+    }
+    .badge{
+      font-size:11px;
+      font-weight:900;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      letter-spacing:.2px;
+      user-select:none;
+    }
+    .badge.good{ border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10); }
+    .badge.warn{ border-color: rgba(245,158,11,.35); background: rgba(245,158,11,.10); }
+
+    .support{
+      margin-top:auto;
+      padding:14px;
+      border-radius: 18px;
+      border:1px solid var(--stroke2);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+    }
+    .support h3{
+      margin:0 0 8px 0;
+      font-size:13px;
+      font-weight:900;
+    }
+    .support p{
+      margin:0;
+      color:var(--muted2);
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    /* MAIN */
+    .main{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      overflow:auto;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 14px;
+      border-radius: 18px;
+      border:1px solid var(--stroke2);
+      background: rgba(255,255,255,.04);
+    }
+
+    .statusline{
+      display:flex; align-items:center; gap:10px;
+      color:var(--muted);
+      font-weight:900;
+      font-size:13px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-size:12px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+    .pill b{
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .hero{
+      padding:18px;
+      border-radius: 18px;
+      border:1px solid var(--stroke2);
+      background:
+        radial-gradient(700px 260px at 15% 30%, rgba(124,58,237,.22), transparent 62%),
+        radial-gradient(700px 260px at 85% 35%, rgba(34,211,238,.16), transparent 62%),
+        rgba(255,255,255,.04);
+    }
+    .title{
+      margin:0;
+      font-size:28px;
+      font-weight:900;
+      letter-spacing:-.6px;
+      line-height:1.15;
+    }
+    .subtitle{
+      margin:8px 0 0 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+      max-width: 900px;
+    }
+
+    /* ADMIN CONTROL CARD (visible slider but locked) */
+    .control{
+      padding:16px;
+      border-radius: 18px;
+      border:1px solid var(--stroke2);
+      background: rgba(255,255,255,.04);
+      display:flex;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .control .left{
+      min-width: 260px;
+    }
+    .control h2{
+      margin:0;
+      font-size:13px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .control .hint{
+      margin-top:6px;
+      color:var(--muted2);
+      font-size:12px;
+      font-weight:600;
+      line-height:1.4;
+    }
+    .control .right{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex:1 1 320px;
+      justify-content:flex-end;
+    }
+    .bigPct{
+      font-weight:900;
+      font-size:22px;
+      letter-spacing:-.2px;
+      min-width:72px;
+      text-align:right;
+    }
+
+    input[type="range"]{
+      width:min(520px, 100%);
+      accent-color: var(--accent2);
+      height: 28px;
+      opacity: .65;     /* show it's locked */
+      cursor: not-allowed;
+    }
+
+    .progressWrap{
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      margin-top:14px;
+    }
+    .progressTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .bar{
+      height:10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(124,58,237,.95), rgba(34,211,238,.85));
+      border-radius:999px;
+      box-shadow: 0 10px 30px rgba(124,58,237,.25);
+      transition: width .25s ease;
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+    }
+
+    .card{
+      padding:16px;
+      border-radius: 18px;
+      border:1px solid var(--stroke2);
+      background: rgba(255,255,255,.04);
+    }
+    .card h3{
+      margin:0 0 10px 0;
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .card p{
+      margin:0;
+      color:var(--muted2);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .miniCards{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .mini{
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .mini .k{ font-size:11px; color:var(--muted2); font-weight:900; }
+    .mini .v{ margin-top:6px; font-size:13px; font-weight:900; }
+
+    .footerNote{
+      margin-top:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 14px;
+      border-radius: 18px;
+      border:1px solid var(--stroke2);
+      background: rgba(255,255,255,.03);
+      color:var(--muted2);
+      font-size:12px;
+      font-weight:800;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 14px;
+      font-weight:900;
+      font-size:12px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .btn.good{
+      border-color: rgba(34,197,94,.45);
+      background: linear-gradient(180deg, rgba(34,197,94,.18), rgba(34,197,94,.10));
+      display:none;
+    }
+
+    @media (max-width: 980px){
+      body{ overflow:auto; }
+      .app{ grid-template-columns: 1fr; height:auto; }
+      .grid2{ grid-template-columns: 1fr; }
+      .control .right{ justify-content:flex-start; }
+      .bigPct{ text-align:left; }
+    }
   </style>
 </head>
+
 <body>
-  <div class="noise"></div>
+  <div class="grid"></div>
 
-  <div class="wrap">
-    <header class="glass navfloat">
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="panel sidebar" aria-label="Navigation Techn301">
       <div class="brand">
-        <span class="logoDot"></span>
-        <span>Techn301</span>
-        <span class="tag ghost">Projet Techno</span>
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Techn301 <small>V1 Officielle — déploiement en cours</small></h1>
+        </div>
       </div>
-      <div class="navlinks">
-        <a class="tag" data-go="#features">Fonctionnalités</a>
-        <a class="tag" data-go="#pages">Pages</a>
-        <a class="tag" data-go="#how">Comment ça marche</a>
-        <a class="tag" data-go="#rendu">Rendu</a>
-        <a class="tag" href="login.html">Accéder au logiciel →</a>
+
+      <div class="nav">
+        <div class="item">
+          <div class="left"><span class="dot"></span> Connexion / Auth</div>
+          <span class="badge warn" id="bAuth">Maintenance</span>
+        </div>
+        <div class="item">
+          <div class="left"><span class="dot"></span> Messagerie interne</div>
+          <span class="badge warn" id="bMsg">Déploiement</span>
+        </div>
+        <div class="item">
+          <div class="left"><span class="dot"></span> Pronote (sync)</div>
+          <span class="badge warn" id="bPro">Connexion</span>
+        </div>
+        <div class="item">
+          <div class="left"><span class="dot"></span> Notes / Vie scolaire</div>
+          <span class="badge warn" id="bVS">Optimisation</span>
+        </div>
+        <div class="item">
+          <div class="left"><span class="dot"></span> Notifications</div>
+          <span class="badge warn" id="bNotifs">Upgrade</span>
+        </div>
       </div>
-    </header>
 
-    <div class="card">
-      <div class="inner">
-
-        <section class="hero">
-          <div class="glass section reveal">
-            <h1 class="hTitle">Techn301 — Vie Scolaire</h1>
-            <p class="hLead">
-              Alternative légère (prototype) pour <b>remplacer Pronote</b> en classe :
-              <b>login</b>, espace <b>prof</b> (notes + sanctions + NPunitions), espace <b>élève</b>, publication des informations.
-              Conçu pour être <b>simple</b>, <b>propre</b> et <b>présentable</b> en cours de techno.
-            </p>
-
-            <div class="chips">
-              <span class="tag">⚡ NPunitions (départ 20/20)</span>
-              <span class="tag">📝 Notes (évals / devoirs)</span>
-              <span class="tag">🚫 Sanctions</span>
-              <span class="tag">👨‍🎓 Espace élève</span>
-              <span class="tag">🏫 Gestion des classes</span>
-              <span class="tag">📚 Matières</span</span>
-              <span class="tag">💬 Messagerie interne</span>
-              <span class="tag">📎 Envoi photos/vidéos</span>
-              <span class="tag">📨 Codes provisoires</span>
-            </div>
-
-            <div class="ctaRow">
-              <a href="login.html"><button class="primary">Ouvrir le login</button></a>
-              <a href="#how"><button>Voir le fonctionnement</button></a>
-              <span class="tag">Hébergement : <b>GitHub Pages</b></span>
-            </div>
-
-            <div class="row">
-              <span class="tag">Architecture : <b>Plusieurs pages</b></span>
-              <span class="tag">UI : <b>Ultra Glass</b></span>
-              <span class="tag">Publication : <b>Brouillon → Publié</b></span>
-            </div>
-          </div>
-
-          <div class="glass section illus reveal">
-            <div class="illusTop">
-              <div>
-                <div class="small">État du projet</div>
-                <div style="font-weight:950;font-size:18px;margin-top:2px;">Prêt à rendre ✅</div>
-              </div>
-              <span class="tag mono" id="buildTag">build</span>
-            </div>
-
-            <div>
-              <div class="small">Progression</div>
-              <div class="progress" style="margin-top:8px"><div class="bar" id="bar"></div></div>
-
-              <div class="steps">
-                <div class="step"><div class="n">1</div><div class="txt"><div class="t">Connexion</div><div class="d">Email + code provisoire (4 chiffres).</div></div></div>
-                <div class="step"><div class="n">2</div><div class="txt"><div class="t">Espace prof</div><div class="d">Créer notes, sanctions, retraits de points.</div></div></div>
-                <div class="step"><div class="n">3</div><div class="txt"><div class="t">Publication</div><div class="d">Publier → visible côté élève.</div></div></div>
-                <div class="step"><div class="n">4</div><div class="txt"><div class="t">Espace élève</div><div class="d">Voir uniquement ce qui est publié.</div></div></div>
-              </div>
-
-              <div class="mutebox" style="margin-top:12px">
-                Clique <b>“Accéder au logiciel”</b> pour ouvrir l’appli (login).
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="features" class="glass section reveal" style="margin-top:14px">
-          <h2 class="sectionTitle">Fonctionnalités principales</h2>
-          <p class="desc">Ce que le logiciel sait faire (version techno, simple mais complète).</p>
-
-          <div class="showcaseGrid">
-            <div class="mini"><div class="k">NPunitions</div><div class="v">Départ 20/20</div><div class="p">La prof retire des points (motifs + détail). Calcul automatique.</div></div>
-            <div class="mini"><div class="k">Notes</div><div class="v">Évals / Devoirs</div><div class="p">Créer des notes /20 (ou autre) et les publier quand c’est prêt.</div></div>
-            <div class="mini"><div class="k">Sanctions</div><div class="v">Vie scolaire</div><div class="p">Exclusion, colle, appel parents… + option retrait de points lié.</div></div>
-            <div class="mini"><div class="k">Publication</div><div class="v">Brouillon → Publié</div><div class="p">L’élève ne voit que ce qui a été publié.</div></div>
-            <div class="mini"><div class="k">Codes</div><div class="v">Prêt à copier</div><div class="p">Emails + codes provisoires triés, bouton copier.</div></div>
-            <div class="mini"><div class="k">Design</div><div class="v">Ultra Glass</div><div class="p">Reflets, blur, profondeur, animations et barre flottante.</div></div>
-          </div>
-        </section>
-
-        <section id="pages" class="glass section reveal" style="margin-top:14px">
-          <h2 class="sectionTitle">Pages du projet</h2>
-          <p class="desc">Structure multi-pages claire (comme un vrai logiciel).</p>
-
-          <div class="timeline">
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">login.html</div><div class="d">Connexion (email + code 4 chiffres).</div></div></div>
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">dashboard.html</div><div class="d">Résumé + publication.</div></div></div>
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">codes.html</div><div class="d">Liste email + code triée par prénom + copier.</div></div></div>
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">npunitions.html</div><div class="d">Retirer des points + historique.</div></div></div>
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">notes.html</div><div class="d">Créer notes (éval/devoir) + liste.</div></div></div>
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">sanctions.html</div>
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">classes.html</div><div class="d">Créer des classes + affecter les élèves (admin).</div></div></div>
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">devoirs.html</div><div class="d">Devoirs + rendus élèves (texte + fichiers).</div></div></div>
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">messages.html</div><div class="d">Messagerie interne + pièces jointes.</div></div></div><div class="d">Créer sanctions + option points.</div></div></div>
-            <div class="line"><div class="dot"></div><div class="content"><div class="t">student.html</div><div class="d">Espace élève (publié uniquement).</div></div></div>
-          </div>
-
-          <div class="ctaRow">
-            <a href="login.html"><button class="primary">Accéder au logiciel →</button></a>
-            <a href="#how"><button>Voir le workflow</button></a>
-          </div>
-        </section>
-
-        <section id="how" class="glass section reveal" style="margin-top:14px">
-          <h2 class="sectionTitle">Comment ça marche</h2>
-          <p class="desc">Workflow simple, comme en vrai.</p>
-
-          <div class="split">
-            <div class="glass section">
-              <h2>Prof / Admin</h2>
-              <div class="list" style="margin-top:10px">
-                <div class="item"><div class="t">1) Se connecter</div><div class="m">Compte prof/admin.</div></div>
-                <div class="item"><div class="t">2) Ajouter des données</div><div class="m">Notes, sanctions, NPunitions (brouillon).</div></div>
-                <div class="item"><div class="t">3) Publier</div><div class="m">Devient visible côté élève.</div></div>
-              </div>
-            </div>
-            <div class="glass section">
-              <h2>Élève</h2>
-              <div class="list" style="margin-top:10px">
-                <div class="item"><div class="t">1) Se connecter</div><div class="m">Email + code provisoire.</div></div>
-                <div class="item"><div class="t">2) Consulter</div><div class="m">Uniquement le publié.</div></div>
-                <div class="item"><div class="t">3) Rafraîchir</div><div class="m">Bouton rafraîchir.</div></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="rendu" class="glass section reveal" style="margin-top:14px">
-          <h2 class="sectionTitle">Rendu (propre)</h2>
-          <p class="desc">Ce que tu peux dire à l’oral / dans le compte-rendu.</p>
-
-          <div class="list">
-            <div class="item"><div class="t">Objectif</div><div class="m">Créer une mini “vie scolaire” : notes + sanctions + gestion de points, avec rôles prof/élève.</div></div>
-            <div class="item"><div class="t">Choix techniques</div><div class="m">Plusieurs pages (architecture claire), UI Ultra Glass, publication pour contrôler l’affichage côté élève.</div></div>
-            <div class="item"><div class="t">Limites</div><div class="m">Prototype scolaire : code provisoire, pas un vrai ENT.</div></div>
-          </div>
-
-          <div class="footer">
-            <span class="tag">Design : <b>Ultra Glass</b></span>
-            <a href="login.html"><button class="primary">Accéder au logiciel →</button></a>
-          </div>
-        </section>
-
+      <div class="support">
+        <h3>Info</h3>
+        <p>
+          Mise à jour majeure : <b>messagerie</b>, <b>connexion Pronote</b>, meilleure sécurité,
+          et nouvelles fonctions élèves/profs.
+        </p>
       </div>
-    </div>
+    </aside>
 
-    <div class="small" style="margin-top:12px; opacity:.75; text-align:center">
-      TECHN301 — Landing page • Plusieurs pages • GitHub Pages
-    </div>
+    <!-- MAIN -->
+    <main class="panel main" aria-label="Contenu principal">
+      <div class="topbar">
+        <div class="statusline" id="statusLine">
+          <span style="width:10px;height:10px;border-radius:999px;background:rgba(245,158,11,1);display:inline-block;box-shadow:0 0 0 8px rgba(245,158,11,.12)"></span>
+          Maintenance en cours — retour automatique dès que le déploiement est fini
+        </div>
+        <div class="pill" title="Build / version">
+          Build <b id="buildTxt">TECH-301.1.0</b>
+        </div>
+      </div>
+
+      <section class="hero">
+        <h2 class="title">Mise à jour Techn301 : V1 Officielle 🚀</h2>
+        <p class="subtitle">
+          On installe une grosse amélioration : <b>messagerie interne</b>, <b>connexion Pronote</b>,
+          meilleure sécurité, et nouvelles fonctions pour l’espace <b>élèves</b> et <b>profs</b>.
+        </p>
+
+        <!-- CONTROL VISIBLE (locked slider) -->
+        <div class="control" style="margin-top:14px;">
+          <div class="left">
+            <h2>Contrôle d’avancement (admin)</h2>
+            <div class="hint">
+              Pour modifier : change juste <b>PROGRESS</b> dans le script (0 → 100).
+              Les visiteurs ne peuvent pas bouger le curseur.
+            </div>
+          </div>
+          <div class="right">
+            <input id="progressSlider" type="range" min="0" max="100" step="1" value="0" disabled>
+            <div class="bigPct"><span id="pctTxt">0</span>%</div>
+          </div>
+        </div>
+
+        <div class="progressWrap">
+          <div class="progressTop">
+            <span>Déploiement</span>
+            <span id="phaseTxt">Initialisation</span>
+          </div>
+          <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <i id="barFill"></i>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid2">
+        <div class="card">
+          <h3>Modules V1 (résumé)</h3>
+          <p>
+            • Messagerie interne (élèves ↔ profs) <br>
+            • Connexion plus solide (sessions, sécurité) <br>
+            • Connexion / synchronisation Pronote <br>
+            • Vie scolaire : absences/retards/observations/sanctions <br>
+            • Notifications et optimisations UI
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>État du service</h3>
+          <p>Les modules peuvent redémarrer pendant l’installation.</p>
+
+          <div class="miniCards">
+            <div class="mini">
+              <div class="k">API</div>
+              <div class="v" id="apiTxt">—</div>
+            </div>
+            <div class="mini">
+              <div class="k">Base de données</div>
+              <div class="v" id="dbTxt">—</div>
+            </div>
+            <div class="mini">
+              <div class="k">Auth</div>
+              <div class="v" id="authTxt">—</div>
+            </div>
+            <div class="mini">
+              <div class="k">Pronote</div>
+              <div class="v" id="proTxt">—</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footerNote">
+        <span>© <span id="yearTxt"></span> Techn301 — Maintenance</span>
+        <span>
+          <a class="btn" href="#" onclick="location.reload();return false;">Rafraîchir</a>
+          <a class="btn good" id="goBtn" href="/">Accéder à Techn301</a>
+        </span>
+      </div>
+    </main>
   </div>
 
   <script>
-    document.querySelectorAll("[data-go]").forEach(a=>{
-      a.addEventListener("click", ()=>{
-        const sel = a.getAttribute("data-go");
-        const el = document.querySelector(sel);
-        if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
-      });
-    });
-    const bt = document.getElementById("buildTag");
-    if(bt) bt.textContent = "build: " + (new Date()).toLocaleString("fr-FR");
-    requestAnimationFrame(()=> setTimeout(()=>{
-      const bar = document.getElementById("bar");
-      if(bar) bar.style.width = "100%";
-    }, 150));
-    const els = [...document.querySelectorAll(".reveal")];
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("on"); });
-    }, { threshold: 0.12 });
-    els.forEach(el=>io.observe(el));
+    /* =========================================================
+       ✅ TOI TU MODIFIES JUSTE ICI :
+       Mets un nombre entre 0 et 100.
+       ========================================================= */
+    const PROGRESS = 62;
+
+    const $ = (s)=>document.querySelector(s);
+
+    const slider = $("#progressSlider");
+    const pctTxt = $("#pctTxt");
+    const barFill = $("#barFill");
+    const phaseTxt = $("#phaseTxt");
+    const statusLine = $("#statusLine");
+    const progressbar = document.querySelector('[role="progressbar"]');
+
+    const bAuth = $("#bAuth"), bMsg = $("#bMsg"), bPro = $("#bPro"), bVS = $("#bVS"), bNotifs = $("#bNotifs");
+    const apiTxt = $("#apiTxt"), dbTxt = $("#dbTxt"), authTxt = $("#authTxt"), proTxt = $("#proTxt");
+    const goBtn = $("#goBtn");
+    const yearTxt = $("#yearTxt");
+
+    function setBadge(el, kind, txt){
+      el.classList.remove("good","warn");
+      el.classList.add(kind);
+      el.textContent = txt;
+    }
+
+    function applyProgress(p){
+      const clamped = Math.max(0, Math.min(100, Math.round(p)));
+
+      slider.value = clamped;
+      pctTxt.textContent = clamped;
+      barFill.style.width = clamped + "%";
+      if (progressbar) progressbar.setAttribute("aria-valuenow", String(clamped));
+
+      // Phases + états (logique simple, ajustable)
+      let phase = "Initialisation";
+      let api = "Redémarrage";
+      let db  = "OK";
+      let auth = "Upgrade";
+      let pro  = "Connexion";
+
+      // Badges
+      setBadge(bAuth, "warn", "Maintenance");
+      setBadge(bMsg,  "warn", "Déploiement");
+      setBadge(bPro,  "warn", "Connexion");
+      setBadge(bVS,   "warn", "Optimisation");
+      setBadge(bNotifs,"warn","Upgrade");
+
+      if (clamped >= 25){
+        phase = "Déploiement";
+        api = "OK";
+        setBadge(bMsg, "warn", "Déploiement");
+      }
+      if (clamped >= 50){
+        phase = "Sync & sécurité";
+        auth = "OK";
+        pro = "Sync";
+        setBadge(bAuth, "good", "OK");
+        setBadge(bPro, "warn", "Sync");
+      }
+      if (clamped >= 75){
+        phase = "Optimisations";
+        pro = "OK";
+        setBadge(bPro, "good", "OK");
+        setBadge(bVS, "warn", "Optimisation");
+      }
+      if (clamped >= 90){
+        phase = "Finalisation";
+        setBadge(bVS, "good", "OK");
+        setBadge(bNotifs, "warn", "Finalisation");
+      }
+      if (clamped >= 100){
+        phase = "Terminé";
+        api = "OK"; db = "OK"; auth = "OK"; pro = "OK";
+        setBadge(bAuth, "good", "OK");
+        setBadge(bMsg,  "good", "OK");
+        setBadge(bPro,  "good", "OK");
+        setBadge(bVS,   "good", "OK");
+        setBadge(bNotifs,"good","OK");
+
+        statusLine.innerHTML =
+          `<span style="width:10px;height:10px;border-radius:999px;background:rgba(34,197,94,1);display:inline-block;box-shadow:0 0 0 8px rgba(34,197,94,.12)"></span>
+           Maintenance terminée — tu peux revenir ✅`;
+
+        goBtn.style.display = "inline-flex";
+      } else {
+        statusLine.innerHTML =
+          `<span style="width:10px;height:10px;border-radius:999px;background:rgba(245,158,11,1);display:inline-block;box-shadow:0 0 0 8px rgba(245,158,11,.12)"></span>
+           Maintenance en cours — retour automatique dès que le déploiement est fini`;
+        goBtn.style.display = "none";
+      }
+
+      phaseTxt.textContent = phase;
+      apiTxt.textContent = api;
+      dbTxt.textContent = db;
+      authTxt.textContent = auth;
+      proTxt.textContent = pro;
+    }
+
+    yearTxt.textContent = new Date().getFullYear();
+    applyProgress(PROGRESS);
   </script>
 </body>
 </html>
